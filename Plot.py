@@ -7,7 +7,9 @@ from Vector import Vector
 
 class Plot:
     def __init__(self):
-        fig, self.ax = plt.subplots()
+        fig, self.ax = plt  .subplots()
+        self.ax.set_xlabel('ReZ')
+        self.ax.set_ylabel('ImZ')
 
     def set_limits(self, X, Y):
         self.ax.set_xticks(X)

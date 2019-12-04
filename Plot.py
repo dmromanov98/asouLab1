@@ -1,9 +1,8 @@
 import numpy
 import matplotlib.pyplot as plt
-import matplotlib.patches as patches
+import math
 
 from Vector import Vector
-import math
 
 
 class Plot:
@@ -28,6 +27,7 @@ class Plot:
         self.draw_сontour(Vector(1, 1, 1, 1), 0)
 
     def draw_сontour(self, vector, head_length=0.2):
+        global y, x
         dots = self.get_dots(vector)
         X = dots[0]
         Y = dots[1]
@@ -36,8 +36,16 @@ class Plot:
         for i in range(1, 5):
             dx = X[i] - X[i - 1]
             dy = Y[i] - Y[i - 1]
-            self.ax.arrow(X[i - 1], Y[i - 1], dx, dy, head_length=head_length, width=0.05, facecolor=color,
+
+            x = (2 * head_length) / math.sqrt(3) / 2.2
+            y = head_length / math.sqrt(3) / 2.2
+
+            x = -x if dx > 0 else x
+            y = -y if dy > 0 else y
+            print(x, y)
+            self.ax.arrow(X[i - 1], Y[i - 1], dx + x, dy + y, head_length=head_length, width=0.02, facecolor=color,
                           edgecolor=color,
+                          head_width=0.2,
                           overhang=-head_length / 2)
 
     def show_plot(self):

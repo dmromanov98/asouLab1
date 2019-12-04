@@ -1,6 +1,6 @@
-
 from Plot import Plot
 from Vector import Vector
+import numpy as np
 
 
 def readFile(path):
@@ -19,13 +19,17 @@ def main():
     v1 = vectors[33]
     v2 = vectors[78]
     v3 = vectors[110]
+
     plot = Plot()
-    plot.setLimits()
-    plot.drawUnitContour()
-    plot.drawСontour(v1)
-    plot.drawСontour(v2)
-    plot.drawСontour(v3)
-    plot.showPlot()
+    X = np.arange(-10, 10, 0.5).tolist()
+    Y = np.arange(-5, 5, 0.5).tolist()
+    plot.set_limits(X, Y)
+
+    plot.draw_unit_contour()
+    plot.draw_сontour(v1)
+    plot.draw_сontour(v2)
+    plot.draw_сontour(v3)
+    plot.show_plot()
 
 
 if __name__ == "__main__":

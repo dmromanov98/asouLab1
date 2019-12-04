@@ -3,15 +3,19 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
 from Vector import Vector
+import math
 
 
 class Plot:
-    def setLimits(self):
-        plt.axes().set_xlim(-7, 7)
-        plt.axes().set_ylim(-7, 7)
-        plt.axes().set_aspect(1)
+    def __init__(self):
+        fig, self.ax = plt.subplots()
 
-    def getDots(self, vector):
+    def set_limits(self, X, Y):
+        self.ax.set_xticks(X)
+        self.ax.set_yticks(Y)
+
+    @staticmethod
+    def get_dots(vector):
         result = []
         complexNumbers = [vector.rz1 + 0j, 0 + vector.iz1 * 1j, -vector.rz2 + 0j, 0 + vector.iz2 * -1j, vector.rz1 + 0j]
         X = [x.real for x in complexNumbers]
@@ -20,21 +24,21 @@ class Plot:
         result.append(Y)
         return result
 
-    def drawUnitContour(self):
-        dots = self.getDots(Vector(1, 1, 1, 1))
-        plt.plot(dots[0], dots[1], color='red')
-        # plt.scatter(X, Y, color='red')
+    def draw_unit_contour(self):
+        self.draw_сontour(Vector(1, 1, 1, 1), 0)
 
-    def drawСontour(self, vector):
-        dots = self.getDots(vector)
+    def draw_сontour(self, vector, head_length=0.2):
+        dots = self.get_dots(vector)
         X = dots[0]
         Y = dots[1]
-        style = "Simple,tail_width=0.01,head_width=3,head_length=3"
-        kw = dict(arrowstyle=style, color=numpy.random.rand(3,))
-        for i in range(0, 4):
-            arrow = patches.FancyArrowPatch((X[i], Y[i]), (X[i + 1], Y[i + 1]), **kw)
-            plt.gca().add_patch(arrow)
+        color = numpy.random.rand(3, )
 
+        for i in range(1, 5):
+            dx = X[i] - X[i - 1]
+            dy = Y[i] - Y[i - 1]
+            self.ax.arrow(X[i - 1], Y[i - 1], dx, dy, head_length=head_length, width=0.05, facecolor=color,
+                          edgecolor=color,
+                          overhang=-head_length / 2)
 
-    def showPlot(self):
+    def show_plot(self):
         plt.show()

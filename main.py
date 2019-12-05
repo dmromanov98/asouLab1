@@ -1,21 +1,20 @@
 from Plot import Plot
 from Vector import Vector
 import numpy as np
+import pandas as pd
 
 
-def readFile(path):
-    file = open(path, 'r')
+def get_vectors_from_csv(file):
     resultList = []
-    for line in file:
-        coords = line.split("\t")
-        v = Vector(rz1=float(coords[0]), iz1=float(coords[1]), rz2=float(coords[2]), iz2=float(coords[3]))
+    for i in file.values:
+        v = Vector(rz1=i[0], iz1=i[1], rz2=i[2], iz2=i[3])
         resultList.append(v)
-
     return resultList
 
 
 def main():
-    vectors = readFile("data/input.txt")
+    file = pd.read_csv("data/input.csv")
+    vectors = get_vectors_from_csv(file)
     v1 = vectors[33]
     v2 = vectors[78]
     v3 = vectors[110]

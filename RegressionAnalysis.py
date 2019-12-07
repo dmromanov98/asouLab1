@@ -1,15 +1,15 @@
 z = [1, 1j, -1, -1j]
 
 
-def get_mapping_to_z(vector, permutation_z=z, offset=0):
-    return [vector.rz1 * permutation_z[0],
-            vector.iz1 * permutation_z[1],
-            vector.rz2 * permutation_z[2],
-            vector.iz2 * permutation_z[3]]
+def get_mapping_to_z(vector, permutation_z=z):
+    return [vector.p1 * permutation_z[0],
+            vector.p2 * permutation_z[1],
+            vector.p3 * permutation_z[2],
+            vector.p4 * permutation_z[3]]
 
 
 def get_sum_of_signs(vector):
-    return vector.rz1 + vector.rz2 + vector.iz1 + vector.iz2
+    return vector.p1 + vector.p2 + vector.p3 + vector.p4
 
 
 def get_average_w(w):

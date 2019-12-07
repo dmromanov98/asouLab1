@@ -1,10 +1,8 @@
 import numpy
 import matplotlib.pyplot as plt
-import matplotlib.pylab as plb
 import math
 import RegressionAnalysis as ra
 from Vector import Vector
-import seaborn as sns
 
 
 class Plot:
@@ -30,8 +28,8 @@ class Plot:
     @staticmethod
     def get_dots(vector):
         result = []
-        complexNumbers = [vector.rz1 * ra.z[0], vector.iz1 * ra.z[1], vector.rz2 * ra.z[2], vector.iz2 * ra.z[3],
-                          vector.rz1 * ra.z[0]]
+        complexNumbers = [vector.p1 * ra.z[0], vector.p2 * ra.z[1], vector.p3 * ra.z[2], vector.p4 * ra.z[3],
+                          vector.p1 * ra.z[0]]
         X = [x.real for x in complexNumbers]
         Y = [x.imag for x in complexNumbers]
         result.append(X)
@@ -43,7 +41,6 @@ class Plot:
 
     def draw_сontour(self, vector, head_length=0.2):
         global y, x
-        # plb.subplot(self.number_of_lines, self.number_of_columns, 1)
         dots = self.get_dots(vector)
         X = dots[0]
         Y = dots[1]

@@ -53,20 +53,38 @@ def draw_contours(plot, vectors, x_limits, y_limits):
 
 
 def draw_regression_analysis(plot, vectors):
-    permutation = get_z(vectors, True)
+    permutationZ = get_z(vectors, True)
+    print("Permutation = ", permutationZ)
+    permutation = []
+    for axis in permutationZ:
+        if axis == 1:
+            permutation.append(0)
+        elif axis == 1j:
+            permutation.append(1)
+        elif axis == -1:
+            permutation.append(2)
+        elif axis == -1j:
+            permutation.append(3)
+
+    print(permutation)
     color = 'r'
     i = 0
     for vector in vectors:
-        w = ra.get_mapping_to_z(vector, permutation)
-        a = ra.get_sum_of_signs(vector)
+        ch_vector = [vector.p1, vector.p2, vector.p3, vector.p4]
+        ch_vector[0], ch_vector[1], ch_vector[2], ch_vector[3] = ch_vector[permutation[0]], ch_vector[permutation[1]], \
+                                                                 ch_vector[permutation[2]], ch_vector[permutation[3]]
+        new_vector = Vector(ch_vector[0], ch_vector[1], ch_vector[2], ch_vector[3])
+        w = ra.get_mapping_to_z(new_vector, ra.z)
+        a = ra.get_sum_of_signs(new_vector)
         b = ra.get_average_w(w)
         p = ra.get_b_normalized_to_a(b, a)
         if i == 0 or i == 50 or i == 100:
             color = numpy.random.rand(3, )
-        plot.draw_regression_analysis(p, color)
+        plot.draw_dot(p, color)
         i += 1
 
 
+# Normalization method
 def standardization(vectors, type=1):
     result = []
     X = []
@@ -96,27 +114,28 @@ def standardization(vectors, type=1):
 
 
 def draw_principal_component_method(plot, vectors):
-    new_X = standardization(vectors, 1)
+    new_X = standardization(vectors, 2)
     G = pd.DataFrame(new_X).corr()
 
     eig_values, eig_vectors = np.linalg.eig(G)  # eigenvector and value
 
+    # sorting matrix
     for i in range(0, len(eig_values) - 1):
         for j in range(i + 1, len(eig_values)):
             if eig_values[i] < eig_values[j]:
                 eig_values[i], eig_values[j] = eig_values[j], eig_values[i]
                 eig_vectors[i], eig_vectors[j] = eig_vectors[j], eig_vectors[i]
 
-    max1 = eig_vectors[0]
-    max2 = eig_vectors[1]
+    v1 = eig_vectors[0]
+    v2 = eig_vectors[1]
     X = np.array(new_X)
-    Z = X.dot(max1) + 1j * (X.dot(max2))
+    P = X.dot(v1) + 1j * (X.dot(v2))
     color = 'r'
     i = 0
-    for dot in Z:
+    for dot in P:
         if i == 0 or i == 50 or i == 100:
             color = numpy.random.rand(3, )
-        plot.draw_regression_analysis(dot, color)
+        plot.draw_dot(dot, color)
         i += 1
 
 
@@ -127,8 +146,8 @@ def main():
     X = np.arange(-10, 10, 1).tolist()
     Y = np.arange(-5, 5, 0.8).tolist()
     # draw_contours(plot, vectors, X, Y)
-    # draw_regression_analysis(plot, vectors)
-    draw_principal_component_method(plot, vectors)
+    draw_regression_analysis(plot, vectors)
+    # draw_principal_component_method(plot, vectors)
 
     plot.show_plot()
 

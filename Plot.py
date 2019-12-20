@@ -22,7 +22,7 @@ class Plot:
         self.number_of_columns = number_of_columns
         self.number_of_lines = number_of_lines
 
-    def draw_regression_analysis(self, position, color='r'):
+    def draw_dot(self, position, color='r'):
         self.ax.scatter(position.real, position.imag, color=color)
 
     @staticmethod

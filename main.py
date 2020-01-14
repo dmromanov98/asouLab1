@@ -22,10 +22,10 @@ def get_z(vectors=[], best=False):
                 a = ra.get_sum_of_signs(vector)
                 b = ra.get_average_w(w)
                 p = ra.get_b_normalized_to_a(b, a)
-                ps.append(abs(p))
+                ps.append(p)
 
             print(ps)
-            std = np.std(ps)
+            std = np.std(np.abs(ps))
             if std > max_std:
                 max_std = std
                 result = item
@@ -53,7 +53,7 @@ def draw_contours(plot, vectors, x_limits, y_limits):
 
 
 def draw_regression_analysis(plot, vectors):
-    permutationZ = get_z(vectors, True)
+    permutationZ = get_z(vectors, False)
     print("Permutation = ", permutationZ)
     permutation = []
     for axis in permutationZ:
@@ -71,8 +71,8 @@ def draw_regression_analysis(plot, vectors):
     i = 0
     for vector in vectors:
         ch_vector = [vector.p1, vector.p2, vector.p3, vector.p4]
-        ch_vector[0], ch_vector[1], ch_vector[2], ch_vector[3] = ch_vector[permutation[0]], ch_vector[permutation[1]], \
-                                                                 ch_vector[permutation[2]], ch_vector[permutation[3]]
+        ch_vector[0], ch_vector[1], ch_vector[2], ch_vector[3] = \
+            ch_vector[permutation[0]], ch_vector[permutation[1]], ch_vector[permutation[2]], ch_vector[permutation[3]]
         new_vector = Vector(ch_vector[0], ch_vector[1], ch_vector[2], ch_vector[3])
         w = ra.get_mapping_to_z(new_vector, ra.z)
         a = ra.get_sum_of_signs(new_vector)
